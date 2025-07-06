@@ -119,10 +119,9 @@ Polyhedron build_platonic_solid(int p, int q)
 
 
 
-// Funzione che permette l'esportazione di un poliedro su Paraview
+// Esporta il poliedro in formato compatibile con Paraview
 void export_polyhedron(const Polyhedron& P)
 {   
-	//cout << ">>> Entrato in export_polyhedron" << endl;
 
 	// Matrice coordinate vertici
 	MatrixXd coordsCell0D = MatrixXd::Zero(3, P.n_vertices());
@@ -136,25 +135,23 @@ void export_polyhedron(const Polyhedron& P)
 		extremaCell1D(1, i) = P.edges[i].end;
 	}
 
-
-
-	// Highlight path on the polyhedron
+	// Evidenzia il cammino sul poliedro
 
 	// Vettore per evidenziare i vertici sul cammino
 	vector<double> visitedNodes(P.n_vertices(), 0.0);
 	for (unsigned int i = 0; i < P.n_vertices(); ++i)
 		visitedNodes[i] = P.vertices[i].short_path ? 1.0 : 0.0;
 
-	// Initialize UCDProperty struct
+	// Inizializza la struttura UCDProperty (nodes)
 	Gedim::UCDProperty<double> visitedNodes_UCD;
 	visitedNodes_UCD.NumComponents = 1;
 
-	// Set the attributes
+	// Imposta gli attributi
 	const double* ptr1 = visitedNodes.data();
 	visitedNodes_UCD.Data = ptr1;
 	visitedNodes_UCD.Label = "Nodi Visitati";
 
-	// Initialize vector of UCDProperty structs and the struct itself
+	// Inizializza il vettore di strutture UCDProperty 
 	vector<Gedim::UCDProperty<double>> points_properties = { visitedNodes_UCD };
 
 
@@ -165,23 +162,23 @@ void export_polyhedron(const Polyhedron& P)
 
 
 
-	// Initialize UCDProperty struct
+	// Inizializza la struttura UCDProperty (edges)
 	Gedim::UCDProperty<double> visitedEdges_UCD;
 	visitedEdges_UCD.NumComponents = 1;
 
-	// Set the attributes
+	// Imposta gli attributi
 	const double* ptr2 = visitedEdges.data();
 	visitedEdges_UCD.Data = ptr2;
 	visitedEdges_UCD.Label = "ShortPath";
 	
-	// Initialize vector of UCDProperty struct and the struct itself
+	// Inizializza il vettore di strutture UCDProperty per gli edge
 	vector<Gedim::UCDProperty<double>> segments_properties = { visitedEdges_UCD };
 
 
-	// Create UCDUtilities struct
+	// Crea la struttura UCDUtilities
 	Gedim::UCDUtilities utilities;
 
-	// Call export functions
+	// Chiama le funzioni di esportazione
 	utilities.ExportPoints("./Cell0Ds.inp",
 							coordsCell0D,
 							points_properties);
@@ -194,7 +191,7 @@ void export_polyhedron(const Polyhedron& P)
 }
 
 
-// Function which writes output files in the requested format
+// Scrive i file di output (txt) con vertici, spigoli, facce e solido
 bool write_output(const Polyhedron& P)
 {
 	// Esporta i vertici (0D)

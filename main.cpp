@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
 	{
 		P = dual_polyhedron(P);
 		cout << " Poliedro di Goldberg " << endl << endl;
-		// Get new neighbors
+		// Assegno le nuove adiacenze
 		assign_edge_adjacencies(P);
 		assign_vertex_adjacencies(P);
 	}
@@ -107,21 +107,20 @@ int main(int argc, char* argv[]) {
 		MatrixXd weights = build_edge_weight_matrix(P);
 
 		// Scegli algoritmo in base alla classe (classe==1: BFS, classe==2: Dijkstra)
-		bool isUniformEdgeLength = (classe == 1);
-		vector<unsigned int> path = find_shortest_path(graph, id_path_start, id_path_end, isUniformEdgeLength, weights);
+		bool is_uniform_edge_length = (classe == 1);
+		vector<unsigned int> path = find_shortest_path(graph, id_path_start, id_path_end, is_uniform_edge_length, weights);
        
 		cout << " Il cammino più breve tra i vertici " << id_path_start << " e " << id_path_end << " passa per i vertici: ";
 		// Evidenzia e stampa il percorso
 		highlight_path(P, path);
 		display_path(P, path);
-		//cout << " Percorso trovato tra i vertici " << id_path_start << " e " << id_path_end << endl;
 	}
 
 
-	// Export the polyhedron for Paraview
+	// Esporta il poliedro per Paraview
 	export_polyhedron(P);
 		
-	// Write .txt output files
+	// Scrivi i file di output .txt
 	if(!write_output(P))
 	{
 		return 1;

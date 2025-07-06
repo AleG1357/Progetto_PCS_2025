@@ -1,0 +1,42 @@
+@startuml
+' Modulo ShortPath: funzioni e struttura
+' Ogni funzione ha descrizione, input e output
+
+title Modulo ShortPath: funzioni e struttura
+
+class Graph {
+  +vector<vector<unsigned int>> adjacency_list
+}
+
+class ShortPath {
+  +Graph build_adjacency_graph(Polyhedron)
+  .. Costruisce la lista di adiacenza dei vertici ..
+  +MatrixXd build_edge_weight_matrix(Polyhedron)
+  .. Crea la matrice dei pesi (distanze euclidee tra vertici adiacenti) ..
+  +vector<unsigned int> bfs_alg(Graph, start, end)
+  .. BFS: trova cammino minimo su grafo non pesato ..
+  +vector<unsigned int> dijkstra_alg(Graph, start, end, MatrixXd)
+  .. Dijkstra: trova cammino minimo su grafo pesato ..
+  +vector<unsigned int> find_shortest_path(Graph, start, end, isUniform, MatrixXd)
+  .. Sceglie tra BFS e Dijkstra in base a is_uniform_edge_length ..
+  +void highlight_path(Polyhedron&, vector<unsigned int>&)
+  .. Evidenzia i vertici/spigoli del cammino minimo ..
+  +void display_path(const Polyhedron&, const vector<unsigned int>&)
+  .. Stampa il cammino e la sua lunghezza ..
+}
+
+ShortPath --> Graph : utilizza
+ShortPath --> Polyhedron : input/output
+ShortPath --> MatrixXd : pesi
+
+note right of ShortPath
+* build_adjacency_graph: input Polyhedron, output Graph
+* build_edge_weight_matrix: input Polyhedron, output MatrixXd
+* bfs_alg: input Graph, start, end; output path (vector<unsigned int>)
+* dijkstra_alg: input Graph, start, end, pesi; output path
+* find_shortest_path: input Graph, start, end, isUniform, pesi; output path
+* highlight_path: input/output Polyhedron, path
+* display_path: input Polyhedron, path
+end note
+
+@enduml

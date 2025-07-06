@@ -1,0 +1,25 @@
+@startuml
+title Diagramma di sequenza (main e ShortPath)
+actor Utente
+Utente -> main : Avvio programma
+main -> Utils : build_platonic_solid(p, q)
+main -> Triangulation : triangulate_classI/II(P, delta)
+main -> Topology : project_on_unit_sphere(P.vertices)
+main -> Topology : assign_edge_adjacencies(P)
+main -> Topology : assign_vertex_adjacencies(P)
+alt p != 3
+  main -> Topology : dual_polyhedron(P)
+  main -> Topology : assign_edge_adjacencies(P)
+  main -> Topology : assign_vertex_adjacencies(P)
+end
+alt richiesta cammino minimo
+  main -> ShortPath : build_adjacency_graph(P)
+  main -> ShortPath : build_edge_weight_matrix(P)
+  main -> ShortPath : find_shortest_path(graph, start, end, ...)
+  ShortPath -> ShortPath : bfs_alg/dijkstra_alg
+  main -> ShortPath : highlight_path(P, path)
+  main -> ShortPath : display_path(P, path)
+end
+main -> Utils : export_polyhedron(P)
+main -> Utils : write_output(P)
+@enduml

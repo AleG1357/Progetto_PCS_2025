@@ -10,7 +10,7 @@ using namespace std;
 
 
 
-// Geometry TEST
+// Topology TEST
 
 TEST(GeometryTest, ProjectOnUnitSphere)
 {
@@ -19,7 +19,7 @@ TEST(GeometryTest, ProjectOnUnitSphere)
 	project_on_unit_sphere(v);
 	double length = v.coords.norm();
 	ASSERT_NEAR(length, 1.0, 1e-12);
-	// Check direction is preserved (dot product sign)
+	// Controllo che il vettore sia normalizzato
 	Vector3d original = {-2.0, 7.0, 3.5};
 	ASSERT_GT(v.coords.dot(original), 0.0);
 }

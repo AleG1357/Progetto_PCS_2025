@@ -1,0 +1,28 @@
+@startuml
+title Flusso del progetto in breve
+
+actor Utente as U
+
+rectangle "Programma Poliedri" {
+  (Inserisci parametri) as IP
+  (Costruisci solido platonico) as CSP
+  (Triangolazione) as TRI
+  (Proiezione su sfera) as PROJ
+  (Calcolo cammino minimo) as PATH
+  (Esporta risultati) as EXP
+}
+
+U --> IP : inserisce {p, q, b, c, ...}
+IP --> CSP : validazione input
+CSP --> TRI : scelta classe
+TRI --> PROJ : triangolazione
+PROJ --> PATH : proiezione e adiacenze
+PATH --> EXP : risultati cammino
+
+note right of PATH
+  Algoritmi:
+  - BFS (Classe I)
+  - Dijkstra (Classe II)
+end note
+
+@enduml

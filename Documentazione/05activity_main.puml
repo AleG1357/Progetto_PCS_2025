@@ -1,0 +1,69 @@
+@startuml
+title Diagramma di attività del main 
+start
+
+:Input quadrupla {p, q, b, c} o sestupla {p, q, b, c, id_path_start, id_path_end};
+if (input non valido?) then (sì)
+  :Messaggio di errore;
+  stop
+else (no)
+endif
+
+partition "Costruzione solido platonico" {
+  if (p=3 and q=3) then (Tetraedro)
+    :Costruisci Tetraedro;
+  elseif ((p=3 and q=4) or (p=4 and q=3)) then (Ottaedro)
+    :Costruisci Ottaedro;
+  elseif ((p=3 and q=5) or (p=5 and q=3)) then (Icosaedro)
+    :Costruisci Icosaedro;
+  else (Altro)
+    :Messaggio di errore;
+    stop
+  endif
+}
+
+partition "Triangolazione" {
+  if ((b >= 1 and c == 0) or (b == 0 and c >= 1)) then (Classe 1)
+    :Classe 1;
+    :Triangolazione Classe 1;
+  elseif (b == c) then (Classe 2)
+    :Classe 2;
+    :Triangolazione Classe 2;
+  else (Non valida)
+    :Messaggio di errore;
+    stop
+  endif
+}
+
+partition "Proiezione e adiacenze" {
+  :Proietta vertici su sfera;
+  :Assegna adiacenze;
+  if (p != 3) then (sì)
+    :Costruisci duale;
+    :Assegna nuove adiacenze;
+  else (no)
+  endif
+}
+
+partition "Cammino minimo" {
+  if (input cammino minimo?) then (sì)
+    :Controlla validità ID;
+    if (ID non validi?) then (sì)
+      :Messaggio di errore;
+      stop
+    else (no)
+    endif
+    :Costruisci grafo e matrice pesi;
+    if (classe == 1) 
+      :Algoritmo BFS;
+    else if (classe == 2)
+      :Algoritmo Dijkstra;
+    endif
+    :Evidenzia e stampa cammino;
+  else (no)
+  endif
+}
+
+:Esportazione risultati;
+stop
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+title Funzioni di Topology, Utils, Triangulation
+
+class Topology {
+  +void project_on_unit_sphere(Vertex&) 
+  .. Proietta un vertice sulla sfera unitaria ..
+  +Vertex face_centroid(const Polyhedron&, unsigned int)
+  .. Calcola il centroide di una faccia ..
+  +void assign_edge_adjacencies(Polyhedron&)
+  .. Assegna le facce adiacenti a ciascun edge ..
+  +void assign_vertex_adjacencies(Polyhedron&)
+  .. Assegna le facce e gli edge adiacenti a ciascun vertice ..
+  +Polyhedron dual_polyhedron(const Polyhedron&)
+  .. Costruisce il poliedro duale ..
+}
+
+class Utils {
+  +Polyhedron build_platonic_solid(int, int)
+  .. Costruisce un solido platonico dato p e q ..
+  +void export_polyhedron(const Polyhedron&)
+  .. Esporta il poliedro per Paraview ..
+  +bool write_output(const Polyhedron&)
+  .. Scrive i file di output (txt) ..
+}
+
+class Triangulation {
+  +unsigned int complete_vertex(Polyhedron&, const Vector3d&)
+  .. Aggiunge un vertice solo se non già presente ..
+  +unsigned int complete_edge(Polyhedron&, unsigned int, unsigned int, unsigned int)
+  .. Aggiunge uno spigolo solo se non già presente ..
+  +Polyhedron triangulate_classI(const Polyhedron&, const unsigned int&)
+  .. Triangolazione Classe I ..
+  +Polyhedron triangulate_classII(const Polyhedron&, const unsigned int&)
+  .. Triangolazione Classe II ..
+}
+
+@enduml

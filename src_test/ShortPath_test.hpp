@@ -18,10 +18,10 @@ TEST(GraphTest, BuildAdjacencyGraph_Octahedron)
     assign_edge_adjacencies(P);
     assign_vertex_adjacencies(P);
     Graph graph = build_adjacency_graph(P);
-    ASSERT_EQ(graph.adjacencyList.size(), P.n_vertices());
+    ASSERT_EQ(graph.adjacency_list.size(), P.n_vertices());
     // Ogni vertice dell'ottaedro ha 4 adiacenze
     for (unsigned int i = 0; i < P.n_vertices(); ++i) {
-        ASSERT_EQ(graph.adjacencyList[i].size(), 4);
+        ASSERT_EQ(graph.adjacency_list[i].size(), 4);
     }
 }
 

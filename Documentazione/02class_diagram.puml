@@ -1,0 +1,44 @@
+@startuml
+title Diagramma delle classi principali
+
+class Polyhedron {
+  +unsigned int id
+  +vector<Vertex> vertices
+  +vector<Edge> edges
+  +vector<Face> faces
+  +unsigned int n_vertices()
+  +unsigned int n_edges()
+  +unsigned int n_faces()
+  +bool check_faces()
+}
+class Vertex {
+  +unsigned int id
+  +Vector3d coords
+  +vector<unsigned int> edge_adjacencies
+  +vector<unsigned int> face_adjacencies
+  +bool short_path
+}
+class Edge {
+  +unsigned int id
+  +unsigned int origin
+  +unsigned int end
+  +vector<unsigned int> face_adjacencies
+  +bool short_path
+}
+class Face {
+  +unsigned int id
+  +vector<unsigned int> id_vertices
+  +vector<unsigned int> id_edges
+  +unsigned int n_vertices()
+  +unsigned int n_edges()
+}
+class Graph {
+  +vector<vector<unsigned int>> adjacency_list
+}
+
+Polyhedron "1" *-- "*" Vertex
+Polyhedron "1" *-- "*" Edge
+Polyhedron "1" *-- "*" Face
+Graph ..> Polyhedron : costruito da
+
+@enduml

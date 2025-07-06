@@ -8,14 +8,14 @@ using namespace std;
 using namespace Eigen;
 
 
-// Proietta le coordinate di un vertice sulla sfera unitaria
+// Proietta le coordinate di un vertice sulla sfera unitaria (normalizza il vettore)
 void project_on_unit_sphere(Vertex& v) {
 	double norm = v.coords.norm();
 	if (norm > 0) v.coords /= norm;
 }
 
 
-// Calcola il centroide di una faccia
+// Calcola il centroide di una faccia del poliedro
 Vertex face_centroid(const Polyhedron& poly, unsigned int face_id) {
 	Vertex centroid;
 	centroid.coords = {0, 0, 0};
@@ -30,7 +30,7 @@ Vertex face_centroid(const Polyhedron& poly, unsigned int face_id) {
 
 
 
-// Assegna le facce adiacenti a ciascun edge
+// Assegna a ogni spigolo le facce adiacenti
 void assign_edge_adjacencies(Polyhedron& poly) {
 	for (auto& edge : poly.edges) {
 		edge.face_adjacencies.clear();
@@ -44,7 +44,7 @@ void assign_edge_adjacencies(Polyhedron& poly) {
 }
 
 
-// Assegna le facce e gli edge adiacenti a ciascun vertice
+// Assegna a ogni vertice le facce e gli spigoli adiacenti
 void assign_vertex_adjacencies(Polyhedron& poly) {
 	std::unordered_map<unsigned int, std::vector<unsigned int>> edgeMap;
 	for (const auto& edge : poly.edges) {
@@ -57,7 +57,6 @@ void assign_vertex_adjacencies(Polyhedron& poly) {
 		auto& neighbors = edgeMap[v.id];
 		if (neighbors.empty()) continue;
 		unsigned int start_edge = neighbors[0];
-		//unsigned int current_edge = start_edge;
 		unsigned int current_face = poly.edges[start_edge].face_adjacencies[0];
 		v.face_adjacencies.push_back(current_face);
 		unsigned int first_edge = 0;
@@ -90,7 +89,7 @@ void assign_vertex_adjacencies(Polyhedron& poly) {
 }
 
 
-// Costruisce il poliedro duale
+// Costruisce il poliedro duale (scambia facce e vertici)
 Polyhedron dual_polyhedron(const Polyhedron& poly) {
 	Polyhedron dual;
 	dual.id = poly.id + 2;

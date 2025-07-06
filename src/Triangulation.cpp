@@ -6,7 +6,7 @@ using namespace std;
 using namespace Eigen;
 
 
-// Funzione che aggiunge un vertice solo se non già presente
+// Aggiunge un vertice solo se non già presente nel poliedro (con tolleranza sulle coordinate)
 unsigned int complete_vertex(Polyhedron& poly, const Vector3d& coords)
 {
 	constexpr double tol = 1e-12;
@@ -22,6 +22,7 @@ unsigned int complete_vertex(Polyhedron& poly, const Vector3d& coords)
 	return v_new.id;
 }
 
+// Aggiunge uno spigolo tra due vertici solo se non già presente (può forzare l'ID)
 unsigned int complete_edge(Polyhedron& poly, unsigned int id1, unsigned int id2, unsigned int forced_id)
 {
 	if (id1 >= poly.vertices.size() || id2 >= poly.vertices.size() || id1 == id2)
@@ -56,7 +57,7 @@ unsigned int complete_edge(Polyhedron& poly, unsigned int id1, unsigned int id2,
 }
 
 
-// Triangolazione Class I di un poliedro con parametro delta (delta > 0)
+// Triangolazione Classe I: suddivide ogni faccia in delta^2 triangoli
 Polyhedron triangulate_classI(const Polyhedron& P_old, const unsigned int& delta)
 {
 	Polyhedron P;
